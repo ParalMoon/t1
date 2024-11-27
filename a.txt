@@ -1,0 +1,18 @@
+git status
+git log --oneline --graph
+git log --graph --decorate --all
+
+git remote add t1 https://github.com/ParalMoon/t1
+
+git add a.txt
+git commit -m "a.txt version 1"
+git push origin main
+git pull origin main
+
+git checkout ac20104
+git checkout -
+
+
+
+
+
