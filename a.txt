@@ -29,6 +29,7 @@ git checkout -b br1
 #브랜치 생성과 동시에 이동
 
 merge
+git merge br1
 rebase
 pull request
 
