@@ -1,12 +1,17 @@
 git status
+git branch 
 git log --oneline --graph
 git log --graph --decorate --all
+#--들의 순서는 상관없음
 
 git remote add t1 https://github.com/ParalMoon/t1
 
 git add a.txt
+#파일 스테이지에 올리기
 git commit -m "a.txt version 1"
+#스테이지에 있던 파일이 다 스냅샷
 git push origin main
+#원격 저장소에 올라감(gitignore 빼고)
 git pull origin main
 
 git checkout ac20104
