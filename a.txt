@@ -19,6 +19,7 @@ git restore --staged .
 #스테이지에 있는 모든 파일 내리기
 
 
+git checkout main
 git checkout ac20104
 git checkout -
 
