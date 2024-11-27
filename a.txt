@@ -14,8 +14,22 @@ git push origin main
 #원격 저장소에 올라감(gitignore 빼고)
 git pull origin main
 
+git restore --staged a.txt
+git restore --staged .
+#스테이지에 있는 모든 파일 내리기
+
+
 git checkout ac20104
 git checkout -
+
+git branch br1
+#브랜치 생성
+git checkout -b br1
+#브랜치 생성과 동시에 이동
+
+merge
+rebase
+pull request
 
 
 
