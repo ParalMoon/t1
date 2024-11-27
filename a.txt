@@ -28,10 +28,20 @@ git branch br1
 git checkout -b br1
 #브랜치 생성과 동시에 이동
 
-merge
+
 git merge br1
+git checkout br2              
+git checkout -b br3           
+git merge br1                 
+# (충돌 해결 후)
+git add <충돌 해결된 파일>    
+git commit                   
+git push origin br3     
+# (필요 시)  
+
 rebase
 pull request
+
 
 
 
