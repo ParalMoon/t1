@@ -106,16 +106,22 @@ rotation_keys = {
 def execute_rotation(key):
     """키 입력과 동일한 회전 동작 실행"""
     if key == "d":
+        print("D 키 눌림 - 앞면(안쪽) 시계 방향 회전")
         rotate_nodes(True, rotating_node_in)
     elif key == "g":
+        print("G 키 눌림 - 우측면 시계 방향 회전")
         rotate_nodes(True, rotating_node_right)
     elif key == "e":
+        print("E 키 눌림 - 윗면 시계 방향 회전")
         rotate_nodes(True, rotating_node_up)
     elif key == "f":
+        print("F 키 눌림 - 앞면(안쪽) 반시계 방향 회전")
         rotate_nodes(False, rotating_node_in)
     elif key == "h":
+        print("H 키 눌림 - 우측면 반시계 방향 회전")
         rotate_nodes(False, rotating_node_right)
     elif key == "r":
+        print("R 키 눌림 - 윗면 반시계 방향 회전")
         rotate_nodes(False, rotating_node_up)
     draw_nodes()
 
@@ -181,45 +187,45 @@ while running:
             else :
             
                     if event.key == pygame.K_o:
-                        print("O 키 눌림 - 바깥쪽 노드 시계 방향 회전")
+                        print("O 키 눌림 - 뒷면(바깥쪽) 시계 방향 회전")
                         rotate_nodes(True, rotating_node_out)
                     elif event.key == pygame.K_p:
-                        print("P 키 눌림 - 바깥쪽 노드 반시계 방향 회전")
+                        print("P 키 눌림 - 뒷면(바깥쪽) 반시계 방향 회전")
                         rotate_nodes(False, rotating_node_out)
 
                     elif event.key == pygame.K_d:
-                        print("D 키 눌림 - 안쪽 노드 시계 방향 회전")
+                        print("D 키 눌림 - 앞면(안쪽) 시계 방향 회전")
                         rotate_nodes(True, rotating_node_in)
                     elif event.key == pygame.K_f:
-                        print("F 키 눌림 - 안쪽 노드 반시계 방향 회전")
+                        print("F 키 눌림 - 앞면(안쪽) 반시계 방향 회전")
                         rotate_nodes(False, rotating_node_in)
 
                     elif event.key == pygame.K_a:
-                        print("A 키 눌림 - 왼쪽 노드 시계 방향 회전")
+                        print("A 키 눌림 - 좌측면 시계 방향 회전")
                         rotate_nodes(True, rotating_node_left)
                     elif event.key == pygame.K_s:
-                        print("S 키 눌림 - 왼쪽 노드 반시계 방향 회전")
+                        print("S 키 눌림 - 좌측면 반시계 방향 회전")
                         rotate_nodes(False, rotating_node_left)
 
                     elif event.key == pygame.K_g:
-                        print("G 키 눌림 - 오른쪽 노드 시계 방향 회전")
+                        print("G 키 눌림 - 우측면 시계 방향 회전")
                         rotate_nodes(True, rotating_node_right)
                     elif event.key == pygame.K_h:
-                        print("H 키 눌림 - 오른쪽 노드 반시계 방향 회전")
+                        print("H 키 눌림 - 우측면 반시계 방향 회전")
                         rotate_nodes(False, rotating_node_right)
 
                     elif event.key == pygame.K_e:
-                        print("E 키 눌림 - 위쪽 노드 시계 방향 회전")
+                        print("E 키 눌림 - 윗면 시계 방향 회전")
                         rotate_nodes(True, rotating_node_up)
                     elif event.key == pygame.K_r:
-                        print("R 키 눌림 - 위쪽 노드 반시계 방향 회전")
+                        print("R 키 눌림 - 윗면 반시계 방향 회전")
                         rotate_nodes(False, rotating_node_up)
 
                     elif event.key == pygame.K_c:
-                        print("C 키 눌림 - 아래쪽 노드 시계 방향 회전")
+                        print("C 키 눌림 - 아랫면 시계 방향 회전")
                         rotate_nodes(True, rotating_node_down)
                     elif event.key == pygame.K_v:
-                        print("V 키 눌림 - 아래쪽 노드 반시계 방향 회전")
+                        print("V 키 눌림 - 아랫면 반시계 방향 회전")
                         rotate_nodes(False, rotating_node_down)
 
                     # 노드 다시 그리기
