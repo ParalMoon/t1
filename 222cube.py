@@ -50,6 +50,11 @@ rotating_node_right = [4, 2, 8, 6]
 rotating_node_up = [1, 2, 4, 3]
 rotating_node_down = [5, 6, 8, 7]
 
+initial_node_positions = node_positions.copy()
+initial_node_labels = node_labels.copy()
+initial_node_colors = node_colors.copy()
+
+
 # Pygame 폰트 설정 (최적화)
 font = pygame.font.Font(None, 36)
 
@@ -68,7 +73,14 @@ def draw_nodes():
         pygame.draw.circle(screen, node_colors[int(node_labels[node])], pos, 20)  # 원으로 노드 표현
         text = font.render(node_labels[node], True, BLACK)
         screen.blit(text, (pos[0] - 10, pos[1] - 10))  # 숫자 표시
+
+        # 초기화 버튼 추가
+    pygame.draw.rect(screen, RED, (50, 800, 100, 40))  # 버튼 배경
+    screen.blit(font.render("Reset", True, WHITE), (65, 810))
+
     pygame.display.update()  # 화면 업데이트
+
+
 
 
 def rotate_nodes(clockwise, rotate_node):
@@ -142,6 +154,14 @@ def process_cube_formula(formula):
                 execute_rotation(key)
         i += 1
 
+def reset_cube():
+    """큐브를 초기 상태로 되돌림"""
+    global node_positions, node_labels, node_colors
+    node_positions = initial_node_positions.copy()
+    node_labels = initial_node_labels.copy()
+    node_colors = initial_node_colors.copy()
+    draw_nodes()
+
 
 
 
@@ -175,6 +195,10 @@ while running:
                 text_input_active = True
             else:
                 text_input_active = False
+
+                        # 초기화 버튼 클릭 시 큐브 리셋
+            if 50 <= mouse_x <= 150 and 800 <= mouse_y <= 840:
+                reset_cube()
 
         elif event.type == pygame.KEYDOWN:
             if text_input_active:
