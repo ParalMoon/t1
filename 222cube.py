@@ -6,7 +6,7 @@ pygame.init()
 # 화면 설정
 WIDTH, HEIGHT = 600, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("큐브 시뮬레이션")
+pygame.display.set_caption("2 2 2 큐브 시뮬레이션")
 
 # 색상 표
 
