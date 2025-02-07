@@ -1,10 +1,11 @@
 import pygame
+import pygame_textinput
 
 # Pygame 초기화
 pygame.init()
 
 # 화면 설정
-WIDTH, HEIGHT = 600, 800
+WIDTH, HEIGHT = 600, 900
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2 2 2 큐브 시뮬레이션")
 
@@ -87,6 +88,58 @@ def rotate_nodes(clockwise, rotate_node):
     node_labels.update(new_labels)
 
 
+
+# 텍스트 입력 활성화 여부
+text_input_active = False
+
+# 텍스트 입력 초기화
+text_input = pygame_textinput.TextInputVisualizer()
+text_input.font_color = BLACK
+text_input.cursor_color = BLACK
+
+rotation_keys = {
+    "f": "d", "r": "g", "u": "e",
+    "f'": "f", "r'": "h", "u'": "r",
+    "f2": "dd", "r2": "gg", "u2": "ee"
+}
+
+def execute_rotation(key):
+    """키 입력과 동일한 회전 동작 실행"""
+    if key == "d":
+        rotate_nodes(True, rotating_node_in)
+    elif key == "g":
+        rotate_nodes(True, rotating_node_right)
+    elif key == "e":
+        rotate_nodes(True, rotating_node_up)
+    elif key == "f":
+        rotate_nodes(False, rotating_node_in)
+    elif key == "h":
+        rotate_nodes(False, rotating_node_right)
+    elif key == "r":
+        rotate_nodes(False, rotating_node_up)
+    draw_nodes()
+
+def process_cube_formula(formula):
+    """큐브 공식을 해석하고 키 입력 시뮬레이션"""
+    formula = formula.lower().replace(" ", "").replace("\n","")  # 소문자 변환 후 공백, 엔터 키 제거
+    i = 0
+    while i < len(formula):
+        move = formula[i]
+        if i + 1 < len(formula) and formula[i + 1] == "'":  # f', r', u' 처리
+            move += "'"
+            i += 1
+        elif i + 1 < len(formula) and formula[i + 1] == "2":  # f2, r2, u2 처리
+            move += "2"
+            i += 1
+        if move in rotation_keys:
+            for key in rotation_keys[move]:  # 매핑된 키 실행
+                execute_rotation(key)
+        i += 1
+
+
+
+
+
 # 최초 화면 그리기
 draw_nodes()
 
@@ -94,54 +147,83 @@ draw_nodes()
 while running:
     clock.tick(60)  # 초당 60 프레임 유지
 
-    for event in pygame.event.get():
+    screen.fill(WHITE)
+    draw_nodes()
+
+    pygame.draw.rect(screen, BLACK, (50, 750, 500, 40), 2)
+    screen.blit(font.render("Go", True, BLACK), (10, 755))
+    screen.blit(text_input.surface, (60, 755))
+
+    pygame.display.update()
+
+    # 이벤트 처리
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             running = False
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = event.pos
+            # 입력창을 클릭하면 활성화, 바깥을 클릭하면 비활성화
+            if 50 <= mouse_x <= 550 and 750 <= mouse_y <= 790:
+                text_input_active = True
+            else:
+                text_input_active = False
+
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_o:
-                print("O 키 눌림 - 바깥쪽 노드 시계 방향 회전")
-                rotate_nodes(True, rotating_node_out)
-            elif event.key == pygame.K_p:
-                print("P 키 눌림 - 바깥쪽 노드 반시계 방향 회전")
-                rotate_nodes(False, rotating_node_out)
+            if text_input_active:
+                if event.key == pygame.K_RETURN:  # 엔터 키 입력 시 큐브 공식 실행
+                    process_cube_formula(text_input.value)
+                    text_input.value = ""  # 입력 후 텍스트 필드 비우기
 
-            elif event.key == pygame.K_d:
-                print("D 키 눌림 - 안쪽 노드 시계 방향 회전")
-                rotate_nodes(True, rotating_node_in)
-            elif event.key == pygame.K_f:
-                print("F 키 눌림 - 안쪽 노드 반시계 방향 회전")
-                rotate_nodes(False, rotating_node_in)
 
-            elif event.key == pygame.K_a:
-                print("A 키 눌림 - 왼쪽 노드 시계 방향 회전")
-                rotate_nodes(True, rotating_node_left)
-            elif event.key == pygame.K_s:
-                print("S 키 눌림 - 왼쪽 노드 반시계 방향 회전")
-                rotate_nodes(False, rotating_node_left)
 
-            elif event.key == pygame.K_g:
-                print("G 키 눌림 - 오른쪽 노드 시계 방향 회전")
-                rotate_nodes(True, rotating_node_right)
-            elif event.key == pygame.K_h:
-                print("H 키 눌림 - 오른쪽 노드 반시계 방향 회전")
-                rotate_nodes(False, rotating_node_right)
+            else :
+            
+                    if event.key == pygame.K_o:
+                        print("O 키 눌림 - 바깥쪽 노드 시계 방향 회전")
+                        rotate_nodes(True, rotating_node_out)
+                    elif event.key == pygame.K_p:
+                        print("P 키 눌림 - 바깥쪽 노드 반시계 방향 회전")
+                        rotate_nodes(False, rotating_node_out)
 
-            elif event.key == pygame.K_e:
-                print("E 키 눌림 - 위쪽 노드 시계 방향 회전")
-                rotate_nodes(True, rotating_node_up)
-            elif event.key == pygame.K_r:
-                print("R 키 눌림 - 위쪽 노드 반시계 방향 회전")
-                rotate_nodes(False, rotating_node_up)
+                    elif event.key == pygame.K_d:
+                        print("D 키 눌림 - 안쪽 노드 시계 방향 회전")
+                        rotate_nodes(True, rotating_node_in)
+                    elif event.key == pygame.K_f:
+                        print("F 키 눌림 - 안쪽 노드 반시계 방향 회전")
+                        rotate_nodes(False, rotating_node_in)
 
-            elif event.key == pygame.K_c:
-                print("C 키 눌림 - 아래쪽 노드 시계 방향 회전")
-                rotate_nodes(True, rotating_node_down)
-            elif event.key == pygame.K_v:
-                print("V 키 눌림 - 아래쪽 노드 반시계 방향 회전")
-                rotate_nodes(False, rotating_node_down)
+                    elif event.key == pygame.K_a:
+                        print("A 키 눌림 - 왼쪽 노드 시계 방향 회전")
+                        rotate_nodes(True, rotating_node_left)
+                    elif event.key == pygame.K_s:
+                        print("S 키 눌림 - 왼쪽 노드 반시계 방향 회전")
+                        rotate_nodes(False, rotating_node_left)
 
-            # 노드 다시 그리기
-            draw_nodes()
+                    elif event.key == pygame.K_g:
+                        print("G 키 눌림 - 오른쪽 노드 시계 방향 회전")
+                        rotate_nodes(True, rotating_node_right)
+                    elif event.key == pygame.K_h:
+                        print("H 키 눌림 - 오른쪽 노드 반시계 방향 회전")
+                        rotate_nodes(False, rotating_node_right)
+
+                    elif event.key == pygame.K_e:
+                        print("E 키 눌림 - 위쪽 노드 시계 방향 회전")
+                        rotate_nodes(True, rotating_node_up)
+                    elif event.key == pygame.K_r:
+                        print("R 키 눌림 - 위쪽 노드 반시계 방향 회전")
+                        rotate_nodes(False, rotating_node_up)
+
+                    elif event.key == pygame.K_c:
+                        print("C 키 눌림 - 아래쪽 노드 시계 방향 회전")
+                        rotate_nodes(True, rotating_node_down)
+                    elif event.key == pygame.K_v:
+                        print("V 키 눌림 - 아래쪽 노드 반시계 방향 회전")
+                        rotate_nodes(False, rotating_node_down)
+
+                    # 노드 다시 그리기
+                    draw_nodes()
 
 
         # 마우스 클릭 이벤트 (노드 선택)
@@ -160,6 +242,13 @@ while running:
         # 마우스 버튼을 놓았을 때 (드래그 종료)
         elif event.type == pygame.MOUSEBUTTONUP:
             dragging_node = None
+
+
+    # 텍스트 입력 업데이트 (입력창이 활성화된 경우에만)
+    if text_input_active:
+        text_input.update(events)
+
+
 
 
 pygame.quit()
