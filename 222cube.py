@@ -157,7 +157,7 @@ def process_cube_formula(formula):
 def reset_cube():
     """큐브를 초기 상태로 되돌림"""
     global node_positions, node_labels, node_colors
-    node_positions = initial_node_positions.copy()
+    #node_positions = initial_node_positions.copy()
     node_labels = initial_node_labels.copy()
     node_colors = initial_node_colors.copy()
     draw_nodes()
@@ -199,6 +199,12 @@ while running:
                         # 초기화 버튼 클릭 시 큐브 리셋
             if 50 <= mouse_x <= 150 and 800 <= mouse_y <= 840:
                 reset_cube()
+
+            for node, pos in node_positions.items():
+                distance = ((mouse_x - pos[0]) ** 2 + (mouse_y - pos[1]) ** 2) ** 0.5
+                if distance < 20:  # 반지름 20 이내 클릭 시 선택
+                    dragging_node = node
+                    break
 
         elif event.type == pygame.KEYDOWN:
             if text_input_active:
@@ -256,14 +262,8 @@ while running:
                     draw_nodes()
 
 
-        # 마우스 클릭 이벤트 (노드 선택)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x, mouse_y = event.pos
-            for node, pos in node_positions.items():
-                distance = ((mouse_x - pos[0]) ** 2 + (mouse_y - pos[1]) ** 2) ** 0.5
-                if distance < 20:  # 반지름 20 이내 클릭 시 선택
-                    dragging_node = node
-                    break
+
+
         # 마우스 이동 이벤트 (노드 드래그)
         elif event.type == pygame.MOUSEMOTION and dragging_node is not None:
             node_positions[dragging_node] = event.pos
